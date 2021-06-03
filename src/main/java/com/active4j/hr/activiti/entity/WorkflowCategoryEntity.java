@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 /**
  * @title WorkflowCategoryEntity.java
  * @description 工作流 类别
@@ -46,7 +48,7 @@ public class WorkflowCategoryEntity extends BaseEntity implements Comparable<Wor
 	
 	@Override
 	public int hashCode() {
-		return this.getId().hashCode();
+		return this.getId() == null ?  0 : this.getId().hashCode();
 	}
 
 	@Override
