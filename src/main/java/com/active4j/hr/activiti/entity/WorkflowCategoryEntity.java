@@ -46,7 +46,7 @@ public class WorkflowCategoryEntity extends BaseEntity implements Comparable<Wor
 	
 	@Override
 	public int hashCode() {
-		return this.getId().hashCode();
+		return this.getId() == null ?  0 : this.getId().hashCode();
 	}
 
 	@Override
