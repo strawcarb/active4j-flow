@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+	<property name="APP_NAME" value="Nezuko" />
+	<!-- kafka生产准生产在一台机器，由此区分 -->
+<!--	<property name="PROJECT_NAME" value="active4j-flow" />-->
+	<property name="LOG_NAME" value="nezuko" />
+	<property name="LOG_DIR" value="c:/logs" />
+	<property name="logFileNamePattern" value="${LOG_NAME}_%d{yyyy-MM-dd}_%i" />
+	<property name="fileLayoutPattern" value="[${APP_NAME}] [%d] [%level] [%F] [%M] [%t:%L] [] [] [%m]%n" />
+	
+	<!-- Stdout -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!--<pattern>%d %p (%file:%line\)- %m%n</pattern>-->
+			<!--格式化输出：%d:表示日期    %thread:表示线程名     %-5level:级别从左显示5个字符宽度  %msg:日志消息    %n:是换行符-->
+			<pattern>%black([${APP_NAME}]-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) - %cyan(%msg%n)</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+
+	<!-- 本地文件 -->
+	<appender name="BENDI" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_DIR}/${LOG_NAME}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_DIR}/${logFileNamePattern}.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>50MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>7</maxHistory><!-- days -->
+		</rollingPolicy>
+		<layout>
+			<pattern>${fileLayoutPattern}</pattern>
+		</layout>
+	</appender>
+
+	<root level="debug">
+		<springProfile name="dev">
+			<appender-ref ref="CONSOLE" />
+		</springProfile>
+		<appender-ref ref="BENDI" />
+	</root>
+
+</configuration>
