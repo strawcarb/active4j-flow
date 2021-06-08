@@ -12,8 +12,6 @@ import org.springframework.core.env.Environment;
 public class TestRunner {
     @Autowired
     private Environment environment;
-    @Autowired
-    private PgpProperties pgpProperties;
 
     /**
      * 文件签名，并生成签名问文件，文件路径，与原签名一直
