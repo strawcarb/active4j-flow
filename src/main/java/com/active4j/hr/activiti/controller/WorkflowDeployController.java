@@ -90,7 +90,7 @@ public class WorkflowDeployController extends BaseController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(params="delete") 
+	@RequestMapping("/delete")
 	@ResponseBody
 	public AjaxJson delete(String id, HttpServletRequest request){
 		AjaxJson j = new AjaxJson();

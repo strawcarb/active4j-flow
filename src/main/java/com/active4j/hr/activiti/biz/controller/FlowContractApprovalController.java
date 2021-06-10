@@ -191,7 +191,7 @@ public class FlowContractApprovalController extends BaseController {
 		}catch(Exception e) {
 			j.setSuccess(false);
 			j.setMsg(GlobalConstant.ERROR_MSG);
-			log.error("审批报错，错误信息:{}", e);
+			log.error("审批报错", e);
 		}
 		
 		return j;
@@ -250,7 +250,11 @@ public class FlowContractApprovalController extends BaseController {
 					//启动流程
 					//赋值流程变量
 					Map<String, Object> variables = new HashMap<String, Object>();
-					workflowService.startProcessInstanceByKey(workflow.getProcessKey(), workflowBaseEntity.getId(), true, workflowBaseEntity.getUserName(), variables);
+					workflowService.startProcessInstanceByKey(workflow.getProcessKey(),
+							workflowBaseEntity.getId(),
+							true,
+							workflowBaseEntity.getUserName(),
+							variables);
 				}else {
 					WorkflowBaseEntity base = workflowBaseService.getById(workflowBaseEntity.getId());
 					MyBeanUtils.copyBeanNotNull2Bean(workflowBaseEntity, base);
@@ -264,7 +268,11 @@ public class FlowContractApprovalController extends BaseController {
 					//启动流程
 					//赋值流程变量
 					Map<String, Object> variables = new HashMap<String, Object>();
-					workflowService.startProcessInstanceByKey(workflow.getProcessKey(), biz.getId(), true, base.getUserName(), variables);
+					workflowService.startProcessInstanceByKey(workflow.getProcessKey(),
+							biz.getId(),
+							true,
+							base.getUserName(),
+							variables);
 					
 				}
 				
@@ -296,7 +304,7 @@ public class FlowContractApprovalController extends BaseController {
 		}catch(Exception e) {
 			j.setSuccess(false);
 			j.setMsg("申请流程保存失败，错误信息:" + e.getMessage());
-			log.error("申请用章审批流程保存失败，错误信息:{}", e);
+			log.error("申请用章审批流程保存失败", e);
 		}
 		
 		return j;
@@ -341,10 +349,8 @@ public class FlowContractApprovalController extends BaseController {
 		}catch(Exception e) {
 			j.setSuccess(false);
 			j.setMsg("重新提交失败,错误信息:" + e.getMessage());
-			log.error("重新提交失败,错误信息:{}", e);
+			log.error("重新提交失败", e);
 		}
-		
-		
 		return j;	
 	}
 	
@@ -367,9 +373,8 @@ public class FlowContractApprovalController extends BaseController {
 		}catch(Exception e) {
 			j.setSuccess(false);
 			j.setMsg("删除失败，错误信息:" + e.getMessage());
-			log.error("删除流程业务表失败，错误信息:{}", e);
+			log.error("删除流程业务表失败", e);
 		}
-		
 		return j;
 	}
 }

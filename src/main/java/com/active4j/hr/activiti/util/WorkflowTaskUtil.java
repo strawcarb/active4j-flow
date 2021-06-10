@@ -43,7 +43,7 @@ public class WorkflowTaskUtil {
 		// 根据角色名称查询角色
 		List<SysUserEntity> lstUsers = sysRoleService.findUserByRoleName(roleName);
 
-		return lstUsers.stream().map(u -> u.getUserName()).collect(Collectors.toList());
+		return lstUsers.stream().map(SysUserEntity::getUserName).collect(Collectors.toList());
 
 	}
 

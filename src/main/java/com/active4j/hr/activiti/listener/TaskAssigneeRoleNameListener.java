@@ -41,7 +41,7 @@ public class TaskAssigneeRoleNameListener implements TaskListener {
 		
 		List<String> lstUsers = WorkflowTaskUtil.getApprovalUserByRoleName(roleName);
 		
-		if(null == lstUsers || lstUsers.size() <= 0) {
+		if(null == lstUsers || lstUsers.isEmpty()) {
 			taskService.setAssignee(delegateTask.getId(), WorkflowConstant.Str_Admin);
 		}else if(lstUsers.size() == 1) {
 			taskService.setAssignee(delegateTask.getId(), lstUsers.get(0));
