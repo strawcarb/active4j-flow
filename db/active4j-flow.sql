@@ -1415,6 +1415,25 @@ INSERT INTO `flow_cost_approval` VALUES ('f794f3944d8b43dbabe50b74024b0890', '0'
 -- ----------------------------
 -- Table structure for flow_hr_holiday_approval
 -- ----------------------------
+DROP TABLE IF EXISTS `FLOW_PROJ_RELEASE_APPROVE`;
+CREATE TABLE `FLOW_PROJ_RELEASE_APPROVE` (
+  `ID` varchar(32) NOT NULL,
+  `SOFTWARE_NAME` varchar(50) DEFAULT '0' COMMENT '软件名称',
+  `VERSION` varchar(50) NOT NULL COMMENT '软件版本号',
+  `DESCRIPTION` VARCHAR(4000) NOT NULL COMMENT '描述',
+  `URL` varchar(50) DEFAULT NULL COMMENT '软件下载地址',
+  `HASH_CODE` datetime DEFAULT NULL COMMENT '软件包Hash值',
+  `RELEASE_TIME` datetime DEFAULT NULL COMMENT '版本发布时间',
+	`CREATE_TIME` datetime DEFAULT NULL COMMENT '创建时间',
+	`CREATE_NAME` varchar(50) DEFAULT NULL COMMENT '创建时间',
+	`UPDATE_TIME` datetime DEFAULT NULL COMMENT '更新时间',
+	`UPDATE_NAME` varchar(50) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for flow_hr_holiday_approval
+-- ----------------------------
 DROP TABLE IF EXISTS `flow_hr_holiday_approval`;
 CREATE TABLE `flow_hr_holiday_approval` (
   `ID` varchar(32) NOT NULL,
