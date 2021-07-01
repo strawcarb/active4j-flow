@@ -47,6 +47,60 @@
 		order by b.APPLY_DATE desc
 	</select>
 
+
+	<select id="findFinishedTaskById" resultType="com.active4j.hr.activiti.entity.WorkflowBaseEntity">
+		SELECT DISTINCT
+		B.ID,
+		B.APPLY_DATE,
+		B.APPLY_NAME,
+		B.BUSINESS_ID,
+		B.CATEGORY_ID,
+		B.CREATE_DATE,
+		B.CREATE_NAME,
+		B.LEVEL,
+		B.NAME,
+		B.PROJECT_NO,
+		B.STATUS,
+		B.USER_NAME,
+		B.WORKFLOW_ID,
+		B.WORKFLOW_NAME
+		FROM
+		wf_base b,
+		act_hi_procinst p,
+		act_hi_taskinst t
+		WHERE
+		b.ID = p.BUSINESS_KEY_
+		AND p.PROC_INST_ID_ = t.PROC_INST_ID_
+		AND b.WORKFLOW_ID = #{workflowId}
+		AND b.STATUS = 3
+		ORDER BY b.APPLY_DATE desc
+	</select>
+
+	<select id="findFinishedTaskByFlowId" resultType="com.active4j.hr.activiti.entity.WorkflowBaseEntity">
+		SELECT DISTINCT
+			B.ID,
+			B.APPLY_DATE,
+			B.APPLY_NAME,
+			B.BUSINESS_ID,
+			B.CATEGORY_ID,
+			B.CREATE_DATE,
+			B.CREATE_NAME,
+			B.LEVEL,
+			B.NAME,
+			B.PROJECT_NO,
+			B.STATUS,
+			B.USER_NAME,
+			B.WORKFLOW_ID,
+			B.WORKFLOW_NAME
+		FROM
+			wf_base b
+		WHERE
+		      b.WORKFLOW_ID = #{workflowId}
+		  AND b.STATUS = 3
+		ORDER BY b.APPLY_DATE desc
+	</select>
+
+
 	<select id="findGroupTaskStrsByUserName" resultType="com.active4j.hr.activiti.entity.WorkflowBaseEntity">
 		SELECT DISTINCT
 			B.ID,

@@ -7,6 +7,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.active4j.hr.core.query.QueryUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,7 +82,7 @@ public class FlowTaskController extends BaseController {
 		
 		return view;
 	}
-	
+
 	/**
 	 * 跳转到已审批流程页面
 	 * @param req
@@ -95,6 +98,60 @@ public class FlowTaskController extends BaseController {
 				
 		return view;
 	}
+
+
+	/**
+	 * 跳转到已完结流程界面
+	 *
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/finishflowlist")
+	public ModelAndView finishWorkflowList(HttpServletRequest req) {
+		WorkflowBaseEntity workflowBaseEntity = new WorkflowBaseEntity();
+		ModelAndView view = new ModelAndView("flow/task/finishworkflowlist");
+		// 获取流程类别数据
+		List<WorkflowCategoryEntity> lstCatogorys = workflowCategoryService.list();
+		List<WorkflowBaseEntity> list = workflowBaseService.list();
+
+//		view.addObject("categoryReplace", ListUtils.listToReplaceStr(lstCatogorys, "name", "id"));
+		view.addObject("categoryReplace", ListUtils.listToReplaceStr(list, "name", "workflowId"));
+		//TODO 如果传 workflowId
+		/*workflowBaseEntity.setWorkflowId("a9140edfa697d774370aee60f89c65b8");
+		if(StringUtils.isNotEmpty(workflowBaseEntity.getWorkflowId())) {
+
+			// 获取已完结流程数据
+			List<WorkflowBaseEntity> finishWorkflowList = workflowService.findTaskListByFlowId(workflowBaseEntity.getWorkflowId());
+			view.addObject("finishWorkflowList", finishWorkflowList);
+
+		}*/
+		return view;
+	}
+
+
+
+	/**
+	 * 查询数据  -- 已完结流程
+	 *
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
+	@RequestMapping("/finishedWorkflow")
+	public void finishedWorkflow(WorkflowBaseEntity workflowBaseEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		// 拼接查询条件
+//		QueryWrapper<WorkflowBaseEntity> queryWrapper = QueryUtils.installQueryWrapper(workflowBaseEntity, request.getParameterMap(), dataGrid);
+//		queryWrapper.eq("STATUS", "3")
+//				.eq("WORKFLOW_ID","a9140edfa697d774370aee60f89c65b8");
+
+		// 执行查询
+		IPage<WorkflowBaseEntity> lstResult = workflowService.findFinishedTaskByFlowId(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), workflowBaseEntity);
+//		IPage<WorkflowBaseEntity> lstResult = workflowService.page(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
+
+		// 输出结果
+		ResponseUtil.writeJson(response, dataGrid, lstResult);
+	}
+
 	
 	/**
 	 * 跳转到承接审批流程

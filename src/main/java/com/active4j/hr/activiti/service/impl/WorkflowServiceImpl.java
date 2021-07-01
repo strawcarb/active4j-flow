@@ -357,6 +357,28 @@ public class WorkflowServiceImpl implements WorkflowService {
     }
 
     /**
+     * 查询当前任务 相关联的  已完结的流程
+     * @param page
+     * @param base
+     * @return
+     */
+    @Override
+    public IPage<WorkflowBaseEntity> findFinishedTaskByFlowId(IPage<WorkflowBaseEntity> page, WorkflowBaseEntity base) {
+        base.setWorkflowId("a9140edfa697d774370aee60f89c65b8");
+
+        //如果有了流程ID  需要查询当前流程中 已经完结的流程  以流程为中心 查询数据 status = 3
+        return  workflowDao.findFinishedTaskById(page,base.getWorkflowId());
+
+    }
+
+    @Override
+    public List<WorkflowBaseEntity> findTaskListByFlowId(String workFlowId) {
+        List<WorkflowBaseEntity> finishedTaskList = workflowDao.findFinishedTaskByFlowId(workFlowId);
+        return finishedTaskList;
+    }
+
+
+    /**
      * 根据业务ID，查询当前流程实例所有审批意见信息列表
      *
      * @param businesskey
@@ -777,6 +799,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public List<String> findGroupTaskIdByBusinessKey(String businessKey, String userName) {
         return workflowDao.findGroupTaskIdByBusinessKey(businessKey, userName);
     }
+
 
 
     /**

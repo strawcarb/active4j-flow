@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.Comment;
@@ -237,5 +238,24 @@ public interface WorkflowService {
 	 * @time 2020年4月28日 上午10:47:20
 	 */
 	public List<String> findGroupTaskIdByBusinessKey(String businessKey, String userName);
+
+
+	/**
+	 * 根据当前流程ID  获取已完结的审批列表
+	 * @param page
+	 * @param base
+	 * @return
+	 */
+	public IPage<WorkflowBaseEntity> findFinishedTaskByFlowId(IPage<WorkflowBaseEntity> page,
+															  WorkflowBaseEntity base);
+
+
+	/**
+	 * 根据流程ID 状态 查询 已完成列表
+	 * @param businesskey
+	 * @return
+	 */
+	public List<WorkflowBaseEntity> findTaskListByFlowId(String workFlowId);
+
 	
 }
