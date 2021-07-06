@@ -7,9 +7,11 @@ import com.active4j.hr.activiti.service.WorkflowBaseService;
 import com.active4j.hr.activiti.service.WorkflowMngService;
 import com.active4j.hr.activiti.service.WorkflowService;
 import com.active4j.hr.activiti.util.ActivitiUtils;
+import com.active4j.hr.common.entity.BaseEntity;
 import com.active4j.hr.core.shiro.ShiroUtils;
 import com.active4j.hr.core.web.tag.PagerUtil;
 import com.active4j.hr.core.web.tag.model.DataGrid;
+import com.active4j.hr.system.entity.SysRoleEntity;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -364,7 +366,6 @@ public class WorkflowServiceImpl implements WorkflowService {
      */
     @Override
     public IPage<WorkflowBaseEntity> findFinishedTaskByFlowId(IPage<WorkflowBaseEntity> page, WorkflowBaseEntity base) {
-        base.setWorkflowId("a9140edfa697d774370aee60f89c65b8");
 
         //如果有了流程ID  需要查询当前流程中 已经完结的流程  以流程为中心 查询数据 status = 3
         return  workflowDao.findFinishedTaskById(page,base.getWorkflowId());

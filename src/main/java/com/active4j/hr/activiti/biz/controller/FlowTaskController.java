@@ -112,19 +112,9 @@ public class FlowTaskController extends BaseController {
 		ModelAndView view = new ModelAndView("flow/task/finishworkflowlist");
 		// 获取流程类别数据
 		List<WorkflowCategoryEntity> lstCatogorys = workflowCategoryService.list();
-		List<WorkflowBaseEntity> list = workflowBaseService.list();
 
-//		view.addObject("categoryReplace", ListUtils.listToReplaceStr(lstCatogorys, "name", "id"));
-		view.addObject("categoryReplace", ListUtils.listToReplaceStr(list, "name", "workflowId"));
-		//TODO 如果传 workflowId
-		/*workflowBaseEntity.setWorkflowId("a9140edfa697d774370aee60f89c65b8");
-		if(StringUtils.isNotEmpty(workflowBaseEntity.getWorkflowId())) {
+		view.addObject("categoryReplace", ListUtils.listToReplaceStr(lstCatogorys, "name", "id"));
 
-			// 获取已完结流程数据
-			List<WorkflowBaseEntity> finishWorkflowList = workflowService.findTaskListByFlowId(workflowBaseEntity.getWorkflowId());
-			view.addObject("finishWorkflowList", finishWorkflowList);
-
-		}*/
 		return view;
 	}
 
@@ -139,14 +129,15 @@ public class FlowTaskController extends BaseController {
 	 */
 	@RequestMapping("/finishedWorkflow")
 	public void finishedWorkflow(WorkflowBaseEntity workflowBaseEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		// 拼接查询条件
-//		QueryWrapper<WorkflowBaseEntity> queryWrapper = QueryUtils.installQueryWrapper(workflowBaseEntity, request.getParameterMap(), dataGrid);
-//		queryWrapper.eq("STATUS", "3")
-//				.eq("WORKFLOW_ID","a9140edfa697d774370aee60f89c65b8");
 
-		// 执行查询
+		//获取请求头中refer的值 并取出workId
+		String referer = request.getHeader("Referer");
+		String[] split = referer.split("=");
+		String workFlowId = split[1];
+		workflowBaseEntity.setWorkflowId(workFlowId);
+
+
 		IPage<WorkflowBaseEntity> lstResult = workflowService.findFinishedTaskByFlowId(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), workflowBaseEntity);
-//		IPage<WorkflowBaseEntity> lstResult = workflowService.page(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), queryWrapper);
 
 		// 输出结果
 		ResponseUtil.writeJson(response, dataGrid, lstResult);
