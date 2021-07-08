@@ -137,6 +137,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
             return j;
+
         } else if(ObjectUtils.isEmpty(data.getFile())) {
             j.setSuccess(false);
             j.setMsg("请上传版本文件！");
