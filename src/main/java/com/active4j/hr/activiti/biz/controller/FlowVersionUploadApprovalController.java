@@ -7,6 +7,7 @@ import com.active4j.hr.activiti.entity.WorkflowMngEntity;
 import com.active4j.hr.activiti.service.WorkflowBaseService;
 import com.active4j.hr.activiti.service.WorkflowMngService;
 import com.active4j.hr.activiti.service.WorkflowService;
+import com.active4j.hr.activiti.util.AddSigunature;
 import com.active4j.hr.base.controller.BaseController;
 import com.active4j.hr.common.constant.GlobalConstant;
 import com.active4j.hr.core.beanutil.MyBeanUtils;
@@ -49,6 +50,9 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
     @Autowired
     private FlowVersionUploadApprovalService flowVersionUploadApprovalService;
+
+    @Autowired
+    private AddSigunature addSigunature;
 
     @RequestMapping("/go")
     public ModelAndView go(String formId, String type, String workflowId, String id, HttpServletRequest request) {
@@ -144,6 +148,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
             return j;
         }
         String  fileName = data.getFile().getOriginalFilename();
+        data.setFileName(fileName);
         String filePath = request.getServletContext().getRealPath("/uploadFile");
         log.info("文件上传路径：{}",filePath);
         String[] filename = fileName.split("\\.");

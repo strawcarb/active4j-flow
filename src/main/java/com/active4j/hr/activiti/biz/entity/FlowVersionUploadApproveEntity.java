@@ -66,6 +66,13 @@ public class FlowVersionUploadApproveEntity extends BaseEntity implements Serial
     @TableField("RELEASE_TIME")
     private Date releaseTime;
 
+    /**
+     * 软件发布时间
+     */
+    @TableField("FILE_NAME")
+    private String fileName;
+
+
     @TableField(exist = false)
     private MultipartFile file;
 
