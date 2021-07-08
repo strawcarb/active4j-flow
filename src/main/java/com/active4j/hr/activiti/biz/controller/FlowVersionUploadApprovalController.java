@@ -294,6 +294,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
             }
             workflowService.saveSubmitTask(taskId, id, comment, variables);
         } catch (Exception e) {
+
             j.setSuccess(false);
             j.setMsg(GlobalConstant.ERROR_MSG);
             log.error("流程审批失败", e);
