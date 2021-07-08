@@ -122,7 +122,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
     public AjaxJson save(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity data,  String optType, HttpServletRequest request) throws IOException {
         AjaxJson j = new AjaxJson();
         workflowBaseEntity.setName(data.getSoftwareName());
-        workflowBaseEntity.setProjectNo(UUID.randomUUID().toString().substring(0,19).replaceAll("-",""));
+        workflowBaseEntity.setProjectNo(UUID.randomUUID().toString().substring(13).replaceAll("-",""));
         workflowBaseEntity.setLevel("1");
         if (!workflowBaseService.validWorkflowBase(workflowBaseEntity, j).isSuccess()) {
             return j;
