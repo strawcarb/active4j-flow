@@ -30,7 +30,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">版本文件：</label>
         <div class="col-sm-9">
-         <input id="file"   type="file" name="file" class="form-control">--%>
+         <input id="file"   type="file" name="file" class="form-control">
 
         </div>
     </div>
