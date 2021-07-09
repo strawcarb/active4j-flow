@@ -147,9 +147,11 @@ public class FlowVersionUploadApprovalController extends BaseController {
             j.setMsg("请上传版本文件！");
             return j;
         }
+
         String  fileName = data.getFile().getOriginalFilename();
         data.setFileName(fileName);
         String filePath = request.getServletContext().getRealPath("/uploadFile");
+        addSigunature.addSigunature(filePath);
         log.info("文件上传路径：{}",filePath);
         String[] filename = fileName.split("\\.");
         File file = File.createTempFile(filename[0],"."+filename[1],new File(filePath));
