@@ -17,7 +17,7 @@ public class AddSigunature {
        String pgpPwd = environment.getProperty("pgp.pwd");
         String pgpPublicKeyPath = environment.getProperty("pgp.public.key.path");
         String pgpPrivateKeyPath = environment.getProperty("pgp.private.key.path");
-        byte[] sign= PgpUtils.signatureCreate(filePath, pgpPublicKeyPath,
+        byte[] sign= PgpUtils.signatureCreate(filePath, pgpPrivateKeyPath,
                 filePath+"." + "asc", pgpPwd);
 //        System.out.println("签名校验结果："+ new String(sign));
     }

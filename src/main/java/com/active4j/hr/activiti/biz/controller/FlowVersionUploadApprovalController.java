@@ -149,16 +149,18 @@ public class FlowVersionUploadApprovalController extends BaseController {
         }
 
         String  fileName = data.getFile().getOriginalFilename();
-        data.setFileName(fileName);
+
         String filePath = request.getServletContext().getRealPath("/uploadFile");
-        addSigunature.addSigunature(filePath);
+
         log.info("文件上传路径：{}",filePath);
         String[] filename = fileName.split("\\.");
         File file = File.createTempFile(filename[0],"."+filename[1],new File(filePath));
         FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
+
         file.deleteOnExit();
         data.setHashCode(String.valueOf(workflowBaseEntity.getProjectNo().hashCode()));
         data.setUrl("/uploadFile/"+file.getName());
+        data.setFileName(file.getName());
         Date current = new Date();
         String operator = ShiroUtils.getSessionUserName();
 //        SysUserEntity principal = (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
@@ -244,6 +246,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
                 }
             }
         }
+        addSigunature.addSigunature(filePath +"/"+ file.getName());
         return j;
     }
 

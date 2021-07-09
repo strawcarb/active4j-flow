@@ -40,7 +40,6 @@
                 </div>
                 <button type="button" class="btn btn-primary block full-width m-b" onclick="doSubmit()">登 录</button>
                 
-                <p class="text-muted text-center"> <a href="https://github.com/yunchaoyun/active4j-jsp">github</a> | <a href="https://gitee.com/active4j/active4j-jsp">码云</a>
                 </p>
             </form>
         </div>

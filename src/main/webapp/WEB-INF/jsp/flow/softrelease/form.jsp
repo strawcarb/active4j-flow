@@ -28,7 +28,8 @@
         <div class="col-sm-9">
             <c:if test="${not empty base.id}" >
 <%--            <input id="download" type="text" name="file" class="form-control" value="${biz.url}"  >--%>
-            <a  href=".${biz.url}" download="${biz.fileName}">${biz.fileName}</a>
+            <a  href=".${biz.url}" download="${biz.fileName}">${biz.fileName}</a> <br>
+            <a  href=".${biz.url}.asc" download="${biz.fileName}.asc">${biz.fileName}.asc</a>
             </c:if>
 
             <c:if test="${empty base.id}">
