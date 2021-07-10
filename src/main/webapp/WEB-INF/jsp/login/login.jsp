@@ -17,14 +17,13 @@
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+
 </head>
 <body class="gray-bg">
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <div>
-            <div>
-                <h3 class="logo-name">YC</h3>
-            </div>
-            <h3>active4j-flow演示系统</h3>
+            <img style="margin-top:50%;width: 150px"  src="static/img/logo.png">
             <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
                 <div class="form-group">
                     <input type="text" name="userName" id="userName" value="admin" class="form-control" placeholder="用户名" required="">

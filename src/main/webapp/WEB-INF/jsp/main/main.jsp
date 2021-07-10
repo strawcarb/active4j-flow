@@ -111,8 +111,8 @@
             <div class="sidebar-collapse">
                 <ul class="nav" id="side-menu">
                     <li class="nav-header">
-                        <div >
-                            <img src="../../img/logo.png" >
+                        <div  >
+                            <img style="margin-top:5%;width: 100px"  src="static/img/logo.png">
                         </div>
                     </li>
                     
