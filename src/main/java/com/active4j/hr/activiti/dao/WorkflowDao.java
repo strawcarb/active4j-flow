@@ -31,7 +31,7 @@ public interface WorkflowDao {
 		   @Param("applyDateStart") String applyDateStart, @Param("applyDateEnd") String applyDateEnd);
 
    public IPage<WorkflowBaseEntity> findFinishedTaskById(IPage<WorkflowBaseEntity> page,
-														 @Param("workflowId") String workflowId);
+														 @Param("workflowname") String workFlowName);
 
 
    public IPage<WorkflowBaseEntity> findTaskStrsByUserName(IPage<WorkflowBaseEntity> page, @Param("userName") String userName,

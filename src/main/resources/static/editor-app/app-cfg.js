@@ -21,5 +21,8 @@
 var ACTIVITI = ACTIVITI || {};
 
 ACTIVITI.CONFIG = {
-	'contextRoot' : '/flow/activiti',
+	//线上
+	'contextRoot' : '/active4j/activiti',
+	//本地
+	// 'contextRoot' : '/flow/activiti',
 };

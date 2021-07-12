@@ -71,7 +71,7 @@
 		WHERE
 		b.ID = p.BUSINESS_KEY_
 		AND p.PROC_INST_ID_ = t.PROC_INST_ID_
-		AND b.WORKFLOW_ID = #{workflowId}
+		AND b.WORKFLOW_NAME = #{workflowname}
 		AND b.STATUS = 3
 		ORDER BY b.APPLY_DATE desc
 	</select>

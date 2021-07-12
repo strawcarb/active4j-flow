@@ -1,5 +1,6 @@
 package com.active4j.hr.activiti.biz.controller;
 
+import com.active4j.hr.activiti.biz.entity.FlowContractApprovalEntity;
 import com.active4j.hr.activiti.biz.entity.FlowVersionUploadApproveEntity;
 import com.active4j.hr.activiti.biz.service.FlowVersionUploadApprovalService;
 import com.active4j.hr.activiti.entity.WorkflowBaseEntity;
@@ -60,7 +61,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
     @RequestMapping("/go")
     public ModelAndView go(String formId, String type, String workflowId, String id, HttpServletRequest request) {
-        ModelAndView view;
+        ModelAndView view = new ModelAndView("flow/softrelease/apply");
 
         if (StringUtils.isEmpty(formId)) {
             view = new ModelAndView("system/common/warning");
@@ -114,6 +115,8 @@ public class FlowVersionUploadApprovalController extends BaseController {
         } else {
             view = new ModelAndView("flow/softrelease/apply");
         }
+
+
         if(StringUtils.isNotEmpty(id)) {
             WorkflowBaseEntity base = workflowBaseService.getById(id);
             view.addObject("base", base);
@@ -135,12 +138,14 @@ public class FlowVersionUploadApprovalController extends BaseController {
         if (!workflowBaseService.validWorkflowBase(workflowBaseEntity, j).isSuccess()) {
             return j;
         }
-        // TODO 检查版本号是否重复
+
         WorkflowMngEntity workflow = workflowMngService.getById(workflowBaseEntity.getWorkflowId());
+
         if (null == workflow) {
             j.setSuccess(false);
             j.setMsg("参数错误，系统中没有该流程");
             return j;
+
         } else if(workflow.getVersions() == data.getVersions()) {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
@@ -155,6 +160,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
         String  fileName = data.getFile().getOriginalFilename();
 
         String filePath = environment.getProperty("upload.file.path");
+
 
         log.info("文件上传路径：{}",filePath);
         String[] filename = fileName.split("\\.");
@@ -190,13 +196,14 @@ public class FlowVersionUploadApprovalController extends BaseController {
                 Map<String, Object> variables = new HashMap<String, Object>();
                 workflowService.startProcessInstanceByKey(workflow.getProcessKey(),
                         workflowBaseEntity.getId(),
-                        false,
+                        true,
                         workflowBaseEntity.getUserName(),
                         variables);
             } else {
                 try {
                     WorkflowBaseEntity base = workflowBaseService.getById(workflowBaseEntity.getId());
                     MyBeanUtils.copyBeanNotNull2Bean(workflowBaseEntity, base);
+
                     FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(workflowBaseEntity.getBusinessId());
                     MyBeanUtils.copyBeanNotNull2Bean(data, biz);
                     //已申请
@@ -212,7 +219,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
                     Map<String, Object> variables = new HashMap<>();
                     workflowService.startProcessInstanceByKey(workflow.getProcessKey(),
                             biz.getId(),
-                            false,
+                            true,
                             base.getUserName(),
                             variables);
                 } catch (Exception e) {
@@ -306,7 +313,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
             }else {
                 workflowService.saveSubmitTask(taskId, id, comment, variables);
             }
-            workflowService.saveSubmitTask(taskId, id, comment, variables);
+//            workflowService.saveSubmitTask(taskId, id, comment, variables);
         } catch (Exception e) {
 
             j.setSuccess(false);
@@ -316,4 +323,52 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
         return j;
     }
+
+
+
+
+    /**
+     * 被打回 重新提交方法
+     *
+     */
+   /* @RequestMapping("/reSubmit")
+    @ResponseBody
+    public AjaxJson reSubmit(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity flowVersionUploadApproveEntity, String taskId, HttpServletRequest request) {
+        AjaxJson j = new AjaxJson();
+        try{
+
+            if(null == flowVersionUploadApproveEntity.getContractName()) {
+                j.setSuccess(false);
+                j.setMsg("合同名称不能为空");
+                return j;
+            }
+
+            if(flowContractApprovalEntity.getMoney() <= 0) {
+                j.setSuccess(false);
+                j.setMsg("金钱必须大于0");
+                return j;
+            }
+
+            WorkflowBaseEntity base = workflowBaseService.getById(workflowBaseEntity.getId());
+            MyBeanUtils.copyBeanNotNull2Bean(workflowBaseEntity, base);
+
+            FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(base.getBusinessId());
+            biz.setSoftwareName(flowContractApprovalEntity.getContractName());
+            biz.setMoney(flowContractApprovalEntity.getMoney());
+            //已申请
+            base.setStatus("1");
+            flowVersionUploadApprovalService.saveUpdate(base, biz);
+
+
+            Map<String, Object> map = new HashMap<String, Object>();
+            workflowService.saveSubmitTask(taskId, base.getId(), "重新提交", map);
+
+        }catch(Exception e) {
+            j.setSuccess(false);
+            j.setMsg("重新提交失败,错误信息:" + e.getMessage());
+            log.error("重新提交失败", e);
+        }
+        return j;
+    }
+*/
 }

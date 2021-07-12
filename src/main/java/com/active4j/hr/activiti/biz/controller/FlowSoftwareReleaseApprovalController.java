@@ -150,7 +150,7 @@ public class FlowSoftwareReleaseApprovalController extends BaseController {
                 Map<String, Object> variables = new HashMap<String, Object>();
                 workflowService.startProcessInstanceByKey(workflow.getProcessKey(),
                         workflowBaseEntity.getId(),
-                        false,
+                        true,
                         workflowBaseEntity.getUserName(),
                         variables);
             } else {
@@ -265,7 +265,7 @@ public class FlowSoftwareReleaseApprovalController extends BaseController {
             }else {
                 workflowService.saveSubmitTask(taskId, id, comment, variables);
             }
-            workflowService.saveSubmitTask(taskId, id, comment, variables);
+//            workflowService.saveSubmitTask(taskId, id, comment, variables);
         } catch (Exception e) {
             j.setSuccess(false);
             j.setMsg(GlobalConstant.ERROR_MSG);

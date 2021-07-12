@@ -1,5 +1,8 @@
 package com.active4j.hr.activiti.biz.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,8 +136,17 @@ public class FlowTaskController extends BaseController {
 		//获取请求头中refer的值 并取出workId
 		String referer = request.getHeader("Referer");
 		String[] split = referer.split("=");
-		String workFlowId = split[1];
-		workflowBaseEntity.setWorkflowId(workFlowId);
+//		String workFlowId = split[1];
+//		workflowBaseEntity.setWorkflowId(workFlowId);
+
+		String workFlowName = split[1];
+		String decode = null;
+		try {
+			decode = URLDecoder.decode(workFlowName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		workflowBaseEntity.setWorkFlowName(decode);
 
 
 		IPage<WorkflowBaseEntity> lstResult = workflowService.findFinishedTaskByFlowId(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), workflowBaseEntity);
