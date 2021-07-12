@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +39,9 @@ import java.util.*;
 @Controller
 @RequestMapping("flow/biz/softrelease")
 public class FlowVersionUploadApprovalController extends BaseController {
+
+    @Autowired
+    private Environment environment;
 
     @Autowired
     private WorkflowBaseService workflowBaseService;
@@ -150,7 +154,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
         String  fileName = data.getFile().getOriginalFilename();
 
-        String filePath = request.getServletContext().getRealPath("/uploadFile");
+        String filePath = environment.getProperty("upload.file.path");
 
         log.info("文件上传路径：{}",filePath);
         String[] filename = fileName.split("\\.");

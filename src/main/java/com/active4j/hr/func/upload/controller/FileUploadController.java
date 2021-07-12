@@ -9,11 +9,13 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -335,5 +337,21 @@ public class FileUploadController extends BaseController {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Autowired
+	private Environment environment;
+
+	@RequestMapping("/downloadFile")
+	public void downloadFile(String filename, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+		//设置响应流文件进行下载
+		resp.setHeader("Content-Disposition", "attachment;filename=" + filename);
+		ServletOutputStream sos = resp.getOutputStream();
+		File file = new File(environment.getProperty("download.file.path"), filename);//这个路径为服务器上的磁盘路径
+		byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
+		sos.write(bytes);
+		sos.flush();
+		sos.close();
 	}
 }
