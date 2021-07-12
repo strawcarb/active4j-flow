@@ -28,7 +28,7 @@
         <div class="col-sm-9">
             <c:if test="${not empty base.id}" >
 <%--            <input id="download" type="text" name="file" class="form-control" value="${biz.url}"  >--%>
-            <a href="func/upload/downloadFile?filename=${biz.fileName}">${biz.fileName}</a>
+            <a href="func/upload/downloadFile?filename=${biz.fileName}">${biz.fileName}</a><br>
             <a href="func/upload/downloadFile?filename=${biz.fileName}.asc">${biz.fileName}.asc</a>
             </c:if>
 
