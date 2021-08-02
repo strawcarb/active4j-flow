@@ -7,22 +7,27 @@
 </head>
 
 <body class="gray-bg">
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox">
-                    <div class="ibox-content">
-                        <div id="finishWorkFlow" class="jqGrid_wrapper"></div>
-                    </div>
+<!-- 页面部分 -->
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-12" id="searchGroupId">
+                </div>
+            </div>
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div id="finishWorkFlow" class="jqGrid_wrapper"></div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 </div>
 <!-- 脚本部分 -->
-<t:datagrid actionUrl="flow/biz/task/finishedWorkflow" tableContentId="finishWorkFlow"
+<t:datagrid actionUrl="flow/biz/task/finishedWorkflow" tableContentId="finishWorkFlow" searchGroupId="searchGroupId"
             fit="true" caption="已完结流程" name="finishworkflowlist" pageSize="20" sortName="applyDate" sortOrder="desc">
     <t:dgCol name="id" label="编号" hidden="true" key="true" width="20"></t:dgCol>
     <t:dgCol name="categoryId" label="流程类别" replace="${categoryReplace}" query="true" queryId="categoryId" width="90"></t:dgCol>
