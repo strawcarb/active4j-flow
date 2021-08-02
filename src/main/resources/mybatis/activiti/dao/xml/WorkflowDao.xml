@@ -66,12 +66,14 @@
 		B.WORKFLOW_NAME
 		FROM
 		wf_base b,
+		wf_workflow_mng c,
 		act_hi_procinst p,
 		act_hi_taskinst t
 		WHERE
 		b.ID = p.BUSINESS_KEY_
 		AND p.PROC_INST_ID_ = t.PROC_INST_ID_
-		AND b.WORKFLOW_NAME = #{workflowname}
+		AND c.ID = b.WORKFLOW_ID
+		AND c.WORKFLOW_NO = #{workflowname}
 		AND b.STATUS = 3
 		ORDER BY b.APPLY_DATE desc
 	</select>
