@@ -9,17 +9,20 @@ import com.active4j.hr.activiti.biz.service.FlowVersionUploadApprovalService;
 import com.active4j.hr.activiti.entity.WorkflowBaseEntity;
 import com.active4j.hr.activiti.service.WorkflowBaseService;
 import com.active4j.hr.core.util.StringUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("FlowVersionUploadApprovalService")
+@Service("flowVersionUploadApprovalService")
 @Transactional
 public class FlowVersionUploadApprovalServiceImpl extends ServiceImpl<FlowVersionUploadApprovalDao, FlowVersionUploadApproveEntity> implements FlowVersionUploadApprovalService {
 
     @Autowired
     private WorkflowBaseService workflowBaseService;
+    @Autowired
+    private FlowVersionUploadApprovalDao flowVersionUploadApprovalDao;
 
     @Override
     public void saveOrUpdate(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity entity) {
@@ -29,5 +32,10 @@ public class FlowVersionUploadApprovalServiceImpl extends ServiceImpl<FlowVersio
             workflowBaseEntity.setBusinessId(entity.getId());
         }
         workflowBaseService.saveOrUpdate(workflowBaseEntity);
+    }
+
+    @Override
+    public Integer checkVersion(String workflowId, String version) {
+        return flowVersionUploadApprovalDao.selectByVersion(version,workflowId);
     }
 }

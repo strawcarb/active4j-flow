@@ -156,7 +156,12 @@ public class FlowVersionUploadApprovalController extends BaseController {
             j.setMsg("请上传版本文件！");
             return j;
         }
-
+        Integer count = flowVersionUploadApprovalService.checkVersion(workflowBaseEntity.getWorkflowId(),data.getVersion());
+        if (count>0) {
+            j.setSuccess(false);
+            j.setMsg("版本号重复,请重新输入！");
+            return j;
+        }
         String  fileName = data.getFile().getOriginalFilename();
 
         String filePath = environment.getProperty("upload.file.path");

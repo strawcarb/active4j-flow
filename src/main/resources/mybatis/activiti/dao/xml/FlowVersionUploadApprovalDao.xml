@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.active4j.hr.activiti.biz.dao.FlowVersionUploadApprovalDao">
+    <select id="selectByVersion" resultType="Integer">
+        select count(b.id) as count from  wf_base a,flow_proj_release_approve b where b.id = a.BUSINESS_ID and a.WORKFLOW_ID = #{workflowId} and b.version = #{version}
+    </select>
+</mapper>
