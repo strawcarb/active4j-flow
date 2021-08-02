@@ -26,10 +26,10 @@
             <img style="margin-top:50%;width: 150px"  src="static/img/logo.png">
             <form class="form-horizontal m-t" id="signupForm" action="login" method="post">
                 <div class="form-group">
-                    <input type="text" name="userName" id="userName" value="admin" class="form-control" placeholder="用户名" required="">
+                    <input type="text" name="userName" id="userName" value="" class="form-control" placeholder="用户名" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" id="password" value="123456" class="form-control" placeholder="密码" required="">
+                    <input type="password" name="password" id="password" value="" class="form-control" placeholder="密码" required="">
                 </div>
                 <div class="form-group">
                     <input id="randCode" name="randCode" type="text" class="form-control" placeholder="验证码" required="" style="width: 60%">
