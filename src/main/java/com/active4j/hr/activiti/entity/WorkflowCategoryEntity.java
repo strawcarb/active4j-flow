@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.ibatis.transaction.Transaction;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @title WorkflowCategoryEntity.java
@@ -38,6 +40,7 @@ public class WorkflowCategoryEntity extends BaseEntity implements Comparable<Wor
 	// 备注
 	@TableField("MEMO")
 	private String memo;
+	private transient String version;
 	
 	@Override
 	public int compareTo(WorkflowCategoryEntity o) {

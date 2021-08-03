@@ -257,5 +257,13 @@ public interface WorkflowService {
 	 */
 	public List<WorkflowBaseEntity> findTaskListByFlowId(String workFlowId);
 
-	
+
+	/**
+	 * @param workFlowNo
+	 * @return
+	 * @author Bin Ma
+	 * @description 获取当前流程所以版本信息
+	 * @date 8/3/21 2:08 PM
+	 **/
+    List<WorkflowBaseEntity> getVersion(String workFlowNo);
 }

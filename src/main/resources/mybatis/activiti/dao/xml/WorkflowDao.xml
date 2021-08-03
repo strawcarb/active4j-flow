@@ -63,17 +63,55 @@
 		B.STATUS,
 		B.USER_NAME,
 		B.WORKFLOW_ID,
-		B.WORKFLOW_NAME
+		B.WORKFLOW_NAME,
+		g.VERSION
 		FROM
 		wf_base b,
 		wf_workflow_mng c,
 		act_hi_procinst p,
-		act_hi_taskinst t
+		act_hi_taskinst t,
+		flow_proj_release_approve g
 		WHERE
 		b.ID = p.BUSINESS_KEY_
 		AND p.PROC_INST_ID_ = t.PROC_INST_ID_
 		AND c.ID = b.WORKFLOW_ID
-		AND c.WORKFLOW_NO = #{workflowname}
+		AND g.id = b.BUSINESS_ID
+		<if test="query.version!=null and query.version != ''">
+			AND B.ID = #{query.version}
+		</if>
+		<if test="query.projectNo!=null and query.projectNo != ''">
+			AND B.ID like concat('%',#{query.projectNo},'%')
+		</if>
+		<if test="query.name!=null and query.name != ''">
+			AND B.NAME like concat('%',#{query.name},'%')
+		</if>
+		<if test="query.startTime!=null and query.startTime!=''">
+			and b.APPLY_DATE &gt;= #{query.startTime}
+		</if>
+		<if test="query.endTime!=null and query.endTime!=''">
+			and b.APPLY_DATE &lt;= #{query.endTime}
+		</if>
+		AND c.WORKFLOW_NO = #{query.workFlowName}
+		AND b.STATUS = 3
+		ORDER BY b.APPLY_DATE desc
+	</select>
+	<select id="selectByWorkFlowNo" resultType="com.active4j.hr.activiti.entity.WorkflowBaseEntity">
+		SELECT DISTINCT
+		B.ID,
+		g.VERSION,
+		 b.APPLY_DATE
+		FROM
+		wf_base b,
+		wf_workflow_mng c,
+		act_hi_procinst p,
+		act_hi_taskinst t,
+		flow_proj_release_approve g
+		WHERE
+		b.ID = p.BUSINESS_KEY_
+		AND p.PROC_INST_ID_ = t.PROC_INST_ID_
+		AND c.ID = b.WORKFLOW_ID
+		AND g.id = b.BUSINESS_ID
+		AND c.WORKFLOW_NO = #{workFlowNo}
 		AND b.STATUS = 3
 		ORDER BY b.APPLY_DATE desc
 	</select>

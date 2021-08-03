@@ -122,7 +122,14 @@ public class FlowTaskController extends BaseController {
 		return view;
 	}
 
-
+	@RequestMapping("/getVersion")
+	@ResponseBody
+	public List<WorkflowBaseEntity> getVersion(WorkflowBaseEntity entity,HttpServletRequest request) {
+		String referer = request.getHeader("Referer");
+		String[] split = referer.split("=");
+		String workFlowNo = split[1];
+		return workflowService.getVersion(workFlowNo);
+	}
 
 	/**
 	 * 查询数据  -- 已完结流程
@@ -133,13 +140,13 @@ public class FlowTaskController extends BaseController {
 	 */
 	@RequestMapping("/finishedWorkflow")
 	public void finishedWorkflow(WorkflowBaseEntity workflowBaseEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-
 		//获取请求头中refer的值 并取出workId
 		String referer = request.getHeader("Referer");
 		String[] split = referer.split("=");
-//		String workFlowId = split[1];
-//		workflowBaseEntity.setWorkflowId(workFlowId);
-
+		String startTime = request.getParameter("applyDate_begin");
+		String endTime = request.getParameter("applyDate_end");
+		workflowBaseEntity.setStartTime(startTime);
+		workflowBaseEntity.setEndTime(endTime);
 		String workFlowName = split[1];
 		String decode = null;
 		try {
@@ -148,10 +155,7 @@ public class FlowTaskController extends BaseController {
 			e.printStackTrace();
 		}
 		workflowBaseEntity.setWorkFlowName(decode);
-
-
 		IPage<WorkflowBaseEntity> lstResult = workflowService.findFinishedTaskByFlowId(new Page<WorkflowBaseEntity>(dataGrid.getPage(), dataGrid.getRows()), workflowBaseEntity);
-
 		// 输出结果
 		ResponseUtil.writeJson(response, dataGrid, lstResult);
 	}

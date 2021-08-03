@@ -368,7 +368,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public IPage<WorkflowBaseEntity> findFinishedTaskByFlowId(IPage<WorkflowBaseEntity> page, WorkflowBaseEntity base) {
 
         //如果有了流程ID  需要查询当前流程中 已经完结的流程  以流程为中心 查询数据 status = 3
-        return  workflowDao.findFinishedTaskById(page,base.getWorkFlowName());
+        return  workflowDao.findFinishedTaskById(page,base);
 
     }
 
@@ -376,6 +376,11 @@ public class WorkflowServiceImpl implements WorkflowService {
     public List<WorkflowBaseEntity> findTaskListByFlowId(String workFlowId) {
         List<WorkflowBaseEntity> finishedTaskList = workflowDao.findFinishedTaskByFlowId(workFlowId);
         return finishedTaskList;
+    }
+
+    @Override
+    public List<WorkflowBaseEntity> getVersion(String workFlowNo) {
+        return workflowDao.selectByWorkFlowNo(workFlowNo);
     }
 
 

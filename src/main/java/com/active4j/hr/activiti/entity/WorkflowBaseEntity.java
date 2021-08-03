@@ -80,4 +80,8 @@ public class WorkflowBaseEntity extends BaseEntity {
 	@QueryField(queryColumn="CREATE_DATE", condition=QueryCondition.range)
 	private Date createDate;
 
+	private transient String version;
+	private transient String startTime;
+	private transient String endTime;
+
 }
