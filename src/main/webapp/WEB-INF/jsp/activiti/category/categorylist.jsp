@@ -30,7 +30,7 @@
 		<t:dgCol name="name" label="类别名称" width="90" query="true"></t:dgCol>
 		<t:dgCol name="sort" label="排序" width="60"></t:dgCol>
 		<t:dgCol name="memo" label="备注" width="160"></t:dgCol>
-		<t:dgCol name="opt" label="操作" ></t:dgCol>
+		<t:dgCol name="opt" sortable="false" label="操作" ></t:dgCol>
 		<t:dgDelOpt label="删除" url="wf/flow/category/delete?id={id}"/>
 		<t:dgToolBar url="wf/flow/category/addorupdate" type="add" width="40%" height="70%"></t:dgToolBar>
 		<t:dgToolBar url="wf/flow/category/addorupdate" type="edit" width="40%" height="70%"></t:dgToolBar>

@@ -136,6 +136,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
         workflowBaseEntity.setProjectNo(UUID.randomUUID().toString().substring(13).replaceAll("-",""));
         workflowBaseEntity.setLevel("1");
         if (!workflowBaseService.validWorkflowBase(workflowBaseEntity, j).isSuccess()) {
+            j.setMsg("软件名称不能为空");
             return j;
         }
 

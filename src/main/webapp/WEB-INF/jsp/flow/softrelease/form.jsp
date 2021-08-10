@@ -3,13 +3,13 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">软件名称：</label>
         <div class="col-sm-9">
-            <input type="text" name="softwareName" minlength="2" class="form-control" placeholder="请输入软件名称" value="${base.name }">
+            <input type="text" name="softwareName" minlength="2" class="form-control" placeholder="请输入软件名称" value="${base.name }" required>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-3 control-label">版本编号：</label>
         <div class="col-sm-9">
-            <input type="text" name="version" minlength="2" class="form-control" placeholder="请输入版本号"  value="${biz.version}">
+            <input type="text" name="version" minlength="2" class="form-control" required placeholder="请输入版本号"  value="${biz.version}">
         </div>
     </div>
 
@@ -22,7 +22,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 control-label">版本文件：</label>
+        <label class="col-sm-3 control-label" >版本文件：</label>
         <%--   当ID存在的时候 ：创建流程成功，文件待下载     --%>
 
         <div class="col-sm-9">
@@ -33,7 +33,7 @@
             </c:if>
 
             <c:if test="${empty base.id}">
-                <input id="file"   type="file" name="file" class="form-control" >
+                <input id="file"   type="file" name="file" class="form-control" required>
             </c:if>
         </div>
     </div>
