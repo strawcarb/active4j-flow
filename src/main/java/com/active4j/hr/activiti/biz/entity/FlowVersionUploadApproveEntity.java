@@ -30,6 +30,10 @@ public class FlowVersionUploadApproveEntity extends BaseEntity implements Serial
 
     private static final long serialVersionUID = -3521617027079496837L;
 
+
+    @TableField(exist = false)
+    private String entityId;
+
     /**
      * 软件名称
      */
@@ -75,5 +79,11 @@ public class FlowVersionUploadApproveEntity extends BaseEntity implements Serial
 
     @TableField(exist = false)
     private MultipartFile file;
+
+    @TableField("FLOW_STATUS")
+    private Integer flowStatus;
+
+    @TableField(exist = false)
+    private String fileDisplayName;
 
 }

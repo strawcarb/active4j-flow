@@ -16,9 +16,7 @@
     <div class="form-group">
         <label class="col-sm-3 control-label">软件描述：</label>
         <div class="col-sm-9">
-            <textarea type="text" name="description" class="form-control" placeholder="请输入版本描述">
-                ${biz.description}
-            </textarea>
+            <textarea type="text" name="description" class="form-control" placeholder="请输入版本描述">${biz.description}</textarea>
         </div>
     </div>
     <div class="form-group">
@@ -26,15 +24,21 @@
         <%--   当ID存在的时候 ：创建流程成功，文件待下载     --%>
 
         <div class="col-sm-9">
-            <c:if test="${not empty base.id}" >
-<%--            <input id="download" type="text" name="file" class="form-control" value="${biz.url}"  >--%>
-            <a href="func/upload/downloadFile?filename=${biz.fileName}">${biz.fileName}</a><br>
-            <a href="func/upload/downloadFile?filename=${biz.fileName}.asc">${biz.fileName}.asc</a>
+            <c:if test="${not empty base.id and base.status == 1}" >
+                <a href="func/upload/downloadFile?filename=${biz.fileName}">${biz.fileName}</a><br>
+                <a href="func/upload/downloadFile?filename=${biz.fileName}.asc">${biz.fileName}.asc</a>
             </c:if>
 
             <c:if test="${empty base.id}">
                 <input id="file"   type="file" name="file" class="form-control" required>
             </c:if>
+
+            <c:if test="${not empty base.id and base.status != 1}">
+                <label id="fileName">${biz.fileName}</label>
+                <input id="file" style="display: none" disabled  type="file" name="file" class="form-control" required>
+                <input id="deleteBtn" type="button" value="删除">
+            </c:if>
+
         </div>
     </div>
     <%--    隐藏--%>
@@ -52,5 +56,15 @@
             <p class="form-control-static">版本包大小</p>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#deleteBtn").click(function(e) {
+                $("#fileName").remove()
+                $("#file").attr("style","display:block;").removeAttr("disabled")
+                e.target.remove()
+            })
+        })
+    </script>
 
 </div>

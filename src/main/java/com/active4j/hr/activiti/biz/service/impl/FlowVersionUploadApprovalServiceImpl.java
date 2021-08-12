@@ -1,16 +1,13 @@
 package com.active4j.hr.activiti.biz.service.impl;
 
-import com.active4j.hr.activiti.biz.dao.FlowProjReleaseApprovalDao;
 import com.active4j.hr.activiti.biz.dao.FlowVersionUploadApprovalDao;
-import com.active4j.hr.activiti.biz.entity.FlowProjReleaseApproveEntity;
 import com.active4j.hr.activiti.biz.entity.FlowVersionUploadApproveEntity;
-import com.active4j.hr.activiti.biz.service.FlowProjReleaseApprovalService;
 import com.active4j.hr.activiti.biz.service.FlowVersionUploadApprovalService;
 import com.active4j.hr.activiti.entity.WorkflowBaseEntity;
 import com.active4j.hr.activiti.service.WorkflowBaseService;
 import com.active4j.hr.core.util.StringUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,14 +21,36 @@ public class FlowVersionUploadApprovalServiceImpl extends ServiceImpl<FlowVersio
     @Autowired
     private FlowVersionUploadApprovalDao flowVersionUploadApprovalDao;
 
+
     @Override
-    public void saveOrUpdate(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity entity) {
+    public void saveNewVersion(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity entity) {
+
         boolean isInsert = StringUtil.isEmpty(entity.getId());
-        this.saveOrUpdate(entity);
+        this.save(entity);
         if (isInsert) {
             workflowBaseEntity.setBusinessId(entity.getId());
         }
-        workflowBaseService.saveOrUpdate(workflowBaseEntity);
+        workflowBaseService.save(workflowBaseEntity);
+    }
+
+    @Override
+    public Boolean saveOrUpdate(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity entity) {
+        if (StringUtils.isNotBlank(workflowBaseEntity.getId()) && StringUtils.isNotBlank(entity.getId())){
+            if (this.updateById(entity)){
+                return workflowBaseService.updateById(workflowBaseEntity);
+            }else {
+                return Boolean.FALSE;
+            }
+        }else {
+            boolean isInsert = StringUtil.isEmpty(entity.getId());
+            if (!this.save(entity)){
+                return Boolean.FALSE;
+            }
+            if ( isInsert) {
+                workflowBaseEntity.setBusinessId(entity.getId());
+            }
+            return workflowBaseService.save(workflowBaseEntity);
+        }
     }
 
     @Override

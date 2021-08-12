@@ -17,6 +17,7 @@
                     <form class="form-horizontal m-t" id="commonForm" action="flow/biz/softrelease/save" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="workflowId" id="workflowId" value="${workflowId}">
                         <input type="hidden" name="optType" id="optType">
+                        <input type="hidden" name="entityId" id="entityId" value="${biz.id}">
                         <input type="hidden" name="id" id="id" value="${base.id}">
                         <%@include file="/WEB-INF/jsp/flow/softrelease/form.jsp" %>
                         <div class="form-group" style="margin-top: 30px;">

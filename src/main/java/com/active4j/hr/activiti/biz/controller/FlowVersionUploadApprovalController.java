@@ -132,6 +132,12 @@ public class FlowVersionUploadApprovalController extends BaseController {
     @ResponseBody
     public AjaxJson save(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity data,  String optType, HttpServletRequest request) throws IOException {
         AjaxJson j = new AjaxJson();
+        WorkflowBaseEntity baseEntity  = workflowBaseService.getById(workflowBaseEntity.getId());
+        if (optType.equals("0") || baseEntity.getStatus().equals("5")){
+
+            workflowBaseEntity.setWorkflowId(baseEntity.getWorkflowId());
+        }
+
         workflowBaseEntity.setName(data.getSoftwareName());
         workflowBaseEntity.setProjectNo(UUID.randomUUID().toString().substring(13).replaceAll("-",""));
         workflowBaseEntity.setLevel("1");
@@ -147,36 +153,36 @@ public class FlowVersionUploadApprovalController extends BaseController {
             j.setMsg("参数错误，系统中没有该流程");
             return j;
 
-        } else if(workflow.getVersions() == data.getVersions()) {
+        } else if(ObjectUtils.isEmpty(data.getId()) && workflow.getVersions() == data.getVersions()) {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
             return j;
 
-        } else if(ObjectUtils.isEmpty(data.getFile())) {
-            j.setSuccess(false);
-            j.setMsg("请上传版本文件！");
-            return j;
         }
+
+
         Integer count = flowVersionUploadApprovalService.checkVersion(workflowBaseEntity.getWorkflowId(),data.getVersion());
-        if (count>0) {
+        if (count>0 && optType == "1") {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
             return j;
         }
-        String  fileName = data.getFile().getOriginalFilename();
+        if (!ObjectUtils.isEmpty(data.getFile())){
+            String  fileName = data.getFile().getOriginalFilename();
 
-        String filePath = environment.getProperty("upload.file.path");
+            String filePath = environment.getProperty("upload.file.path");
 
+            log.info("文件上传路径：{}",filePath);
+            String[] filename = fileName.split("\\.");
+            File file = File.createTempFile(filename[0],"."+filename[1],new File(filePath));
+            FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
 
-        log.info("文件上传路径：{}",filePath);
-        String[] filename = fileName.split("\\.");
-        File file = File.createTempFile(filename[0],"."+filename[1],new File(filePath));
-        FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
-
-        file.deleteOnExit();
-        data.setHashCode(String.valueOf(workflowBaseEntity.getProjectNo().hashCode()));
-        data.setUrl("/uploadFile/"+file.getName());
-        data.setFileName(file.getName());
+            file.deleteOnExit();
+            data.setHashCode(String.valueOf(workflowBaseEntity.getProjectNo().hashCode()));
+            data.setUrl("/uploadFile/"+file.getName());
+            data.setFileName(file.getName());
+            addSigunature.addSigunature(filePath +"/"+ file.getName());
+        }
         Date current = new Date();
         String operator = ShiroUtils.getSessionUserName();
 //        SysUserEntity principal = (SysUserEntity) SecurityUtils.getSubject().getPrincipal();
@@ -195,7 +201,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
                 workflowBaseEntity.setWorkFlowName(workflow.getName());
                 workflowBaseEntity.setStatus("1"); //草稿状态 0：草稿 1： 已申请  2： 审批中 3： 已完成 4： 已归档
                 //保存业务数据
-                flowVersionUploadApprovalService.saveOrUpdate(workflowBaseEntity, data);
+                flowVersionUploadApprovalService.saveNewVersion(workflowBaseEntity, data);
 
                 //启动流程
                 //赋值流程变量
@@ -210,7 +216,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
                     WorkflowBaseEntity base = workflowBaseService.getById(workflowBaseEntity.getId());
                     MyBeanUtils.copyBeanNotNull2Bean(workflowBaseEntity, base);
 
-                    FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(workflowBaseEntity.getBusinessId());
+                    FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(base.getBusinessId());
                     MyBeanUtils.copyBeanNotNull2Bean(data, biz);
                     //已申请
                     base.setStatus("1");
@@ -244,26 +250,26 @@ public class FlowVersionUploadApprovalController extends BaseController {
                 workflowBaseEntity.setWorkflowId(workflow.getId());
                 workflowBaseEntity.setWorkFlowName(workflow.getName());
                 workflowBaseEntity.setStatus("0"); //草稿状态 0：草稿 1： 已申请  2： 审批中 3： 已完成 4： 已归档
-                flowVersionUploadApprovalService.saveOrUpdate(workflowBaseEntity, data);
+                flowVersionUploadApprovalService.saveNewVersion(workflowBaseEntity, data);
             } else {
                 try {
                     WorkflowBaseEntity base = workflowBaseService.getById(workflowBaseEntity.getId());
                     MyBeanUtils.copyBeanNotNull2Bean(workflowBaseEntity, base);
-                    FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(workflowBaseEntity.getBusinessId());
+                    FlowVersionUploadApproveEntity biz = flowVersionUploadApprovalService.getById(base.getBusinessId());
                     MyBeanUtils.copyBeanNotNull2Bean(data, biz);
                     //已申请
-                    base.setStatus("1");
+                    base.setStatus("0");
                     base.setUpdateDate(current);
                     base.setUpdateName(operator);
                     biz.setUpdateDate(current);
                     biz.setUpdateName(ShiroUtils.getSessionUserName());
                     flowVersionUploadApprovalService.saveOrUpdate(base, biz);
                 } catch (Exception e) {
-                    log.error("");
+                    j.setSuccess(false);
+                    log.error("update or save failed{}",e.getMessage());
                 }
             }
         }
-        addSigunature.addSigunature(filePath +"/"+ file.getName());
         return j;
     }
 
