@@ -132,6 +132,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
     @ResponseBody
     public AjaxJson save(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity data,  String optType, HttpServletRequest request) throws IOException {
         AjaxJson j = new AjaxJson();
+        data.setId(data.getEntityId());
         WorkflowBaseEntity baseEntity  = workflowBaseService.getById(workflowBaseEntity.getId());
         if (optType.equals("0") || baseEntity.getStatus().equals("5")){
 

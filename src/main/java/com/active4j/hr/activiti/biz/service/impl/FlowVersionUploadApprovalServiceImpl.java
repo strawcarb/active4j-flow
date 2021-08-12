@@ -36,7 +36,8 @@ public class FlowVersionUploadApprovalServiceImpl extends ServiceImpl<FlowVersio
     @Override
     public Boolean saveOrUpdate(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity entity) {
         if (StringUtils.isNotBlank(workflowBaseEntity.getId()) && StringUtils.isNotBlank(entity.getId())){
-            if (this.updateById(entity)){
+            boolean b = this.updateById(entity);
+            if (b){
                 return workflowBaseService.updateById(workflowBaseEntity);
             }else {
                 return Boolean.FALSE;
