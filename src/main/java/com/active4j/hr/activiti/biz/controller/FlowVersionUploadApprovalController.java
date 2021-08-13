@@ -134,7 +134,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
         AjaxJson j = new AjaxJson();
         data.setId(data.getEntityId());
         WorkflowBaseEntity baseEntity  = workflowBaseService.getById(workflowBaseEntity.getId());
-        if (optType.equals("0") || baseEntity.getStatus().equals("5")){
+        if (!ObjectUtils.isEmpty(baseEntity) && (optType.equals("0") || baseEntity.getStatus().equals("5"))){
 
             workflowBaseEntity.setWorkflowId(baseEntity.getWorkflowId());
         }
