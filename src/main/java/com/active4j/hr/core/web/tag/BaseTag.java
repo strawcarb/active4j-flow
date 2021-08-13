@@ -41,9 +41,9 @@ public class BaseTag extends TagSupport {
 			sb.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
 			sb.append("<meta name=\"renderer\" content=\"webkit\">");
 			sb.append("<meta http-equiv=\"Cache-Control\" content=\"no-siteapp\" />");
-			sb.append("<title>active4j-flow演示系统</title>");
-			sb.append("<meta name=\"keywords\" content=\"active4j-flow演示系统\">");
-			sb.append("<meta name=\"description\" content=\"active4j-flow演示系统\">");
+			sb.append("<title>Version Publish System</title>");
+			sb.append("<meta name=\"keywords\" content=\"Version Publish System\">");
+			sb.append("<meta name=\"description\" content=\"Version Publish System\">");
 			sb.append("<!--[if lt IE 9]><meta http-equiv=\"refresh\" content=\"0;ie.html\" /><![endif]-->");
 			//基础包含
 			sb.append("<link rel=\"shortcut icon\" href=\"favicon.ico\">");

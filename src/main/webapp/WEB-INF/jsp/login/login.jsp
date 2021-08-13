@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>active4j-flow演示系统</title>
-    <meta name="keywords" content="active4j-flow演示系统">
-    <meta name="description" content="active4j-flow演示系统">
+    <title>Version Publish System</title>
+    <meta name="keywords" content="Version Publish System">
+    <meta name="description" content="Version Publish System">
     <link rel="shortcut icon" href="static/bootstrap/image/favicon.ico"> 
     <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/bootstrap/css/font-awesome.min.css" rel="stylesheet">
