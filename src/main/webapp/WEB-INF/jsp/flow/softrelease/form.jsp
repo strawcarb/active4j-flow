@@ -22,9 +22,9 @@
     <div class="form-group">
         <label class="col-sm-3 control-label" >版本文件：</label>
         <%--   当ID存在的时候 ：创建流程成功，文件待下载     --%>
-
+<%--        // 流程状态 0：草稿 1： 已申请 2： 审批中 3： 已完成 4： 已归档 5：驳回--%>
         <div class="col-sm-9">
-            <c:if test="${not empty base.id and base.status == 1}" >
+            <c:if test="${not empty base.id and base.status != 0 and base.status != 5}" >
                 <a href="func/upload/downloadFile?filename=${biz.fileName}">${biz.fileName}</a><br>
                 <a href="func/upload/downloadFile?filename=${biz.fileName}.asc">${biz.fileName}.asc</a>
             </c:if>
@@ -33,7 +33,7 @@
                 <input id="file"   type="file" name="file" class="form-control" required>
             </c:if>
 
-            <c:if test="${not empty base.id and base.status != 1}">
+            <c:if test="${not empty base.id and base.status == 0 or base.status == 5}">
                 <label id="fileName">${biz.fileName}</label>
                 <input id="file" style="display: none" disabled  type="file" name="file" class="form-control" required>
                 <input id="deleteBtn" type="button" value="删除">
