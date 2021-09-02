@@ -141,7 +141,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
         workflowBaseEntity.setName(data.getSoftwareName());
         workflowBaseEntity.setProjectNo(UUID.randomUUID().toString().substring(13).replaceAll("-",""));
-        workflowBaseEntity.setLevel("1");
+//        workflowBaseEntity.setLevel("1");
         if (!workflowBaseService.validWorkflowBase(workflowBaseEntity, j).isSuccess()) {
             j.setMsg("软件名称不能为空");
             return j;
@@ -173,9 +173,21 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
             String filePath = environment.getProperty("upload.file.path");
 
+            String[] split = fileName.split("\\.", fileName.lastIndexOf("."));
+
             log.info("文件上传路径：{}",filePath);
             String[] filename = fileName.split("\\.");
-            File file = File.createTempFile(filename[0],"."+filename[1],new File(filePath));
+
+            String suffix = "";
+            for (int i = 0; i < filename.length - 1; i++) {
+                suffix += filename[i];
+                if (i <  filename.length -2 ){
+                    suffix += ".";
+                }
+            }
+            String prefix =filename[filename.length -1];
+
+            File file = File.createTempFile(suffix,"."+prefix,new File(filePath));
             FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
 
             file.deleteOnExit();
