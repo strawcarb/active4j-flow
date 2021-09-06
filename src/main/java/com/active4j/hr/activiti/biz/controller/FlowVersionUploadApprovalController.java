@@ -163,7 +163,7 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
 
         Integer count = flowVersionUploadApprovalService.checkVersion(workflowBaseEntity.getWorkflowId(),data.getVersion());
-        if (count>0 && optType == "1") {
+        if (count>0 && optType.equals("1")) {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
             return j;
