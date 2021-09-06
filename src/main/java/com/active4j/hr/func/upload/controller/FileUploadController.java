@@ -343,16 +343,23 @@ public class FileUploadController extends BaseController {
 	private Environment environment;
 
 	@RequestMapping("/downloadFile")
-	public void downloadFile(String filename, HttpServletRequest req, HttpServletResponse resp) throws IOException {
-		String property = environment.getProperty("download.file.path");
-		//设置响应流文件进行下载
+	public AjaxJson downloadFile(String filename, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+		try {
+			String property = environment.getProperty("download.file.path");
+			//设置响应流文件进行下载
 
-		resp.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("utf-8"),"ISO8859-1"));
-		ServletOutputStream sos = resp.getOutputStream();
-		File file = new File(property, filename);//这个路径为服务器上的磁盘路径
-		byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
-		sos.write(bytes);
-		sos.flush();
-		sos.close();
+			resp.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("utf-8"),"ISO8859-1"));
+			ServletOutputStream sos = resp.getOutputStream();
+			File file = new File(property, filename);//这个路径为服务器上的磁盘路径
+			byte[] bytes = org.apache.commons.io.FileUtils.readFileToByteArray(file);
+			sos.write(bytes);
+			sos.flush();
+			sos.close();
+
+			return null;
+		}catch (Exception e){
+			log.info("download filed ,{}" ,e.getMessage());
+		}
+		return null;
 	}
 }
