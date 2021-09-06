@@ -186,7 +186,11 @@ public class FlowVersionUploadApprovalController extends BaseController {
                 }
             }
             String prefix =filename[filename.length -1];
-
+            if(suffix.length() < 3){
+                j.setSuccess(false);
+                j.setMsg("文件名较短,请重新选择！");
+                return j;
+            }
             File file = File.createTempFile(suffix,"."+prefix,new File(filePath));
             FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
 
