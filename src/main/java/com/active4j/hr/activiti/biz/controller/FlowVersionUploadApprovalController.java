@@ -128,6 +128,15 @@ public class FlowVersionUploadApprovalController extends BaseController {
         return view;
     }
 
+    /**
+     *
+     * @param workflowBaseEntity
+     * @param data
+     * @param optType 保存草稿 0 ； 发起申请 1
+     * @param request
+     * @return
+     * @throws IOException
+     */
     @RequestMapping("/save")
     @ResponseBody
     public AjaxJson save(WorkflowBaseEntity workflowBaseEntity, FlowVersionUploadApproveEntity data,  String optType, HttpServletRequest request) throws IOException {
@@ -163,7 +172,14 @@ public class FlowVersionUploadApprovalController extends BaseController {
 
 
         Integer count = flowVersionUploadApprovalService.checkVersion(workflowBaseEntity.getWorkflowId(),data.getVersion());
-        if (count>0 && optType.equals("1")) {
+        String status = "1";
+        if (!ObjectUtils.isEmpty(baseEntity)){
+            status = baseEntity.getStatus();
+        }
+        //当流程状态为草稿时,可允许提交申请，保存草稿，此次不提示版本号重复
+        //当流程状态为驳回时,可允许提交申请，保存草稿，此次不提示版本号重复
+        //流程状态 0：草稿 1： 已申请 2： 审批中 3： 已完成 4： 已归档 5：驳回
+        if (count>0 && optType.equals("1") ) {
             j.setSuccess(false);
             j.setMsg("版本号重复,请重新输入！");
             return j;
@@ -188,13 +204,13 @@ public class FlowVersionUploadApprovalController extends BaseController {
             String prefix =filename[filename.length -1];
             if(suffix.length() < 3){
                 j.setSuccess(false);
-                j.setMsg("文件名较短,请重新选择！");
+                j.setMsg("文件名较短,请修改后重新选择！");
                 return j;
             }
             File file = File.createTempFile(suffix,"."+prefix,new File(filePath));
             FileUtils.copyInputStreamToFile(data.getFile().getInputStream(),file);
 
-            file.deleteOnExit();
+//            file.deleteOnExit();
             data.setHashCode(String.valueOf(workflowBaseEntity.getProjectNo().hashCode()));
             data.setUrl("/uploadFile/"+file.getName());
             data.setFileName(file.getName());
