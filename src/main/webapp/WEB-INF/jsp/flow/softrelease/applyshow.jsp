@@ -53,7 +53,7 @@
             format: 'YYYY-MM-DD'
         });
 
-        让页面管理表单的字段不可编辑
+        // 让页面管理表单的字段不可编辑
         $("#commonForm input").attr("disabled", "disabled");
         $("#commonForm textarea").attr("disabled", "disabled");
 
