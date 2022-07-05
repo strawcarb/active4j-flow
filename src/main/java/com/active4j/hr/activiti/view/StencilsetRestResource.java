@@ -19,7 +19,7 @@ public class StencilsetRestResource {
     public String getStencilset() {
         log.info("StencilsetRestResource.getStencilset-----------");
         // 文件位置需要跟stencilset.json文件放置的路径匹配,否则进入到在线编辑器页面会是一片空白,没有菜单等显示信息
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("context/stencilset.json");
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("stencilset.json");
         try {
             return IOUtils.toString(inputStream, "utf-8");
         } catch (Exception e) {
